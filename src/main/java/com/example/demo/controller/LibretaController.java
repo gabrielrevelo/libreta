@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Contacto;
+import com.example.demo.domain.Telefono;
 import com.example.demo.service.LibretaService;
 import com.example.demo.utility.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,42 @@ public class LibretaController {
             httpStatus = HttpStatus.NOT_FOUND;
         } else {
             response.message = "El contacto fue removido exitosamente";
+            httpStatus = HttpStatus.OK;
+        }
+        return new ResponseEntity(response, httpStatus);
+    }
+
+    @PostMapping(path = "/crear_telfono")
+    public ResponseEntity<Response> crearTelefono(@RequestBody Telefono telefono) {
+        response.restart();
+        log.info("Telefono a crear: {}", telefono);
+        response.data = libretaService.createTelefono(telefono);
+        httpStatus = HttpStatus.CREATED;
+        return new ResponseEntity(response, httpStatus);
+    }
+
+
+    @PutMapping(path = "/actualizar_telefono/{id}")
+    public ResponseEntity<Response> actualizarTelefono(
+            @RequestBody Telefono telefono,
+            @PathVariable(value="id") Integer id
+    ) {
+        response.restart();
+        response.data = libretaService.updateTelefono(id, telefono);
+        httpStatus = HttpStatus.OK;
+        return new ResponseEntity(response, httpStatus);
+    }
+
+    @DeleteMapping(path = "/borrar_telefono/{id}")
+    public ResponseEntity<Response> borrarTelefono(@PathVariable(value="id") Integer id) {
+        response.restart();
+        log.info("Id", id);
+        response.data = libretaService.deleteTelefono(id);
+        if (response.data == null) {
+            response.message = "El telefono no existe";
+            httpStatus = HttpStatus.NOT_FOUND;
+        } else {
+            response.message = "El telefono fue removido exitosamente";
             httpStatus = HttpStatus.OK;
         }
         return new ResponseEntity(response, httpStatus);

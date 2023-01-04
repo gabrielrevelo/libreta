@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Contacto;
+import com.example.demo.domain.Telefono;
 import com.example.demo.repository.ContactoRepository;
 import com.example.demo.repository.TelefonoRepository;
 import com.example.demo.service.interfaces.ILibreta;
@@ -52,5 +53,30 @@ public class LibretaService implements ILibreta {
         contacto.setFechaActualizacion(Instant.now());
         return contactoRepository.save(contacto);
     }
+    @Override
+    @Transactional
+    public Telefono createTelefono(Telefono telefono) {
+        telefono.setFechaCreacion(Instant.now());
+        return telefonoRepository.save(telefono);
+    }
 
+    @Override
+    @Transactional
+    public Telefono updateTelefono(Integer id, Telefono telefono){
+        telefono.setId(id);
+        telefono.setFechaActualizacion(Instant.now());
+        return telefonoRepository.save(telefono);
+    }
+
+    @Override
+    @Transactional
+    public Telefono deleteTelefono(Integer id) {
+        var telefono = telefonoRepository.findById(id);
+        if (telefono.isPresent()) {
+            telefonoRepository.delete(telefono.get());
+            return telefono.get();
+        } else {
+            return null;
+        }
+    }
 }
