@@ -1,0 +1,35 @@
+package com.example.demo.domain;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.Instant;
+
+@Data
+@Entity
+@Table(name = "telefono")
+public class Telefono implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tel_id", nullable = false)
+    private Integer id;
+
+    @Column(name = "tel_contacto_id", nullable = false)
+    @JsonBackReference
+    private Integer contacto;
+
+    @Column(name = "tel_telefono", nullable = false, length = 30)
+    private String telefono;
+
+    @Column(name = "tel_created_at", nullable = false, updatable = false)
+    private Instant fechaCreacion;
+
+    @Column(name = "tel_updated_at")
+    private Instant fechaActualizacion;
+
+}
