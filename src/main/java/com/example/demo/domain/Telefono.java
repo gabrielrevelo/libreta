@@ -19,9 +19,10 @@ public class Telefono implements Serializable {
     @Column(name = "tel_id", nullable = false)
     private Integer id;
 
-    @Column(name = "tel_contacto_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Contacto.class, optional = false)
+    @JoinColumn(name = "tel_contacto_id", nullable = false)
     @JsonBackReference
-    private Integer contacto;
+    private Contacto contacto;
 
     @Column(name = "tel_telefono", nullable = false, length = 30)
     private String telefono;
